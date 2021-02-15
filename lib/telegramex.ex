@@ -3,7 +3,7 @@ defmodule Telegramex do
   Documentation for `Telegramex`.
   """
 
-  alias Telegramex.Client
+  alias Telegramex.{API, Client}
 
   @doc """
   Use this method to receive incoming updates using long polling.
@@ -24,12 +24,12 @@ defmodule Telegramex do
       Telegramex.get_updates(client)
 
   """
-  # https://core.telegram.org/bots/api#getupdates
+  @spec get_updates(Client.t(), Keyword.t()) :: {:ok, map()} | {:error, term()}
   def get_updates(%Client{} = client, opts \\ []) when is_list(opts) do
-    request(
+    API.call(
       client,
       "getUpdates",
-      Keyword.take(opts, [:offset, :limit, :timeout, :allowed_updates])
+      opts |> Keyword.take([:offset, :limit, :timeout, :allowed_updates]) |> Map.new()
     )
   end
 
@@ -53,13 +53,14 @@ defmodule Telegramex do
       Telegramex.answer_inline_query(client, "2648678931644704387", results)
 
   """
+  @spec answer_inline_query(Client.t(), String.t(), [map()], Keyword.t()) ::
+          {:ok, map()} | {:error, term()}
   def answer_inline_query(%Client{} = client, inline_query_id, results, opts \\ [])
       when is_binary(inline_query_id) and is_list(results) and is_list(opts) do
-    request(
+    API.call(
       client,
       "answerInlineQuery",
       opts
-      # TODO improve handling of arguments
       |> Keyword.take([
         :cache_time,
         :is_personal,
@@ -70,47 +71,7 @@ defmodule Telegramex do
         :switch_pm_parameter
       ])
       |> Keyword.merge(inline_query_id: inline_query_id, results: results)
+      |> Map.new()
     )
-  end
-
-  defp request(client, operation, opts) do
-    {http_mod, http_opts} = client.http_client
-
-    # TODO test when url has path
-    # TODO test when url doesn't have path
-    url =
-      client.base_url
-      |> URI.parse()
-      |> Map.update!(:path, fn path ->
-        Path.join([path || "/", "bot#{client.token}", operation])
-      end)
-      |> URI.to_string()
-
-    body = Map.new(opts)
-
-    headers = [{"content-type", "application/json"}]
-
-    with {:ok, encoded_body} <- Jason.encode(body),
-         {:ok, response} <-
-           apply(http_mod, :request, [:post, url, headers, encoded_body, http_opts]),
-         {:ok, decoded_response_body} <- json_decode(response),
-         response = %{response | body: decoded_response_body} do
-      case response do
-        %{status: 200, body: %{"ok" => true} = body} ->
-          # TODO encoder https://github.com/zhyu/nadia/blob/master/lib/nadia/parser.ex
-          {:ok, body}
-
-        response ->
-          {:error, response}
-      end
-    end
-  end
-
-  # TODO test when is not json response
-  defp json_decode(%{headers: headers, body: body}) do
-    case List.keyfind(headers, "content-type", 0) do
-      {_, "application/json"} -> Jason.decode(body)
-      _ -> body
-    end
   end
 end

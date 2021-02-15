@@ -30,3 +30,4 @@ be found at [https://hexdocs.pm/telegramex](https://hexdocs.pm/telegramex).
 - contributing
 - changelog
 - license
+- code of conduct
