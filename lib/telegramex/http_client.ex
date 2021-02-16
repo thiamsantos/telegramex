@@ -17,8 +17,8 @@ defmodule Telegramex.HTTPClient do
   @callback request(
               method :: atom(),
               url :: binary(),
-              body :: iodata(),
               headers :: list(),
+              body :: iodata(),
               opts :: Keyword.t()
             ) ::
               {:ok, %{status: integer(), headers: [{binary(), binary()}], body: binary()}}

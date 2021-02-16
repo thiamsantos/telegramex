@@ -54,14 +54,37 @@ defmodule Telegramex.APITest do
       assert {:error, %Jason.DecodeError{}} = API.call(client, "coolOperation", %{some: "body"})
     end
 
-    test "http client missing options", %{bypass: bypass} do
+    test "http client missing options" do
       token = "token"
 
-      client = %Client{token: token, base_url: "http://localhost:#{bypass.port}/somepath", http_client: {Telegramex.HTTPClient, []}}
+      client = %Client{token: token, http_client: {Telegramex.HTTPClient, []}}
 
       assert_raise KeyError, ~r"key :name not found", fn ->
         API.call(client, "coolOperation", %{some: "body"})
       end
+    end
+
+    test "custom http client", %{bypass: bypass} do
+      defmodule CustomHTTPClient do
+        def request(method, url, headers, body, opts) do
+          send(self(), {:request, method, url, headers, body, opts})
+
+          {:ok, %{status: 200, headers: [], body: "body"}}
+        end
+      end
+
+      token = "token"
+      client = %Client{token: token, http_client: {CustomHTTPClient, [custom: "options"]}}
+
+      assert API.call(client, "coolOperation", %{some: "body"}) == {:ok, "body"}
+
+      assert_received {:request, method, url, headers, body, opts}
+
+      assert method == :post
+      assert url == "https://api.telegram.org/bot#{token}/coolOperation"
+      assert body == Jason.encode!(%{some: "body"})
+      assert headers == [{"content-type", "application/json"}]
+      assert opts == [custom: "options"]
     end
   end
 end
