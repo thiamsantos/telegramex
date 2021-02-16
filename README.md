@@ -5,7 +5,7 @@
 Telegram's Bot API wrapper.
 
 [![Hex.pm Version](http://img.shields.io/hexpm/v/telegramex.svg?style=flat)](https://hex.pm/packages/telegramex)
-[![CI](https://github.com/thiamsantos/telegramex/workflows/CI/badge.svg?branch=main)](https://github.com/thiamsantos/telegramex/actions)
+[![CI](https://github.com/thiamsantos/telegramex/workflows/CI/badge.svg?branch=main)](https://github.com/thiamsantos/telegramex/actions?query=branch%3Amain)
 [![Coverage Status](https://coveralls.io/repos/github/thiamsantos/telegramex/badge.svg?branch=main)](https://coveralls.io/github/thiamsantos/telegramex?branch=main)
 
 ## Features

@@ -53,5 +53,15 @@ defmodule Telegramex.APITest do
 
       assert {:error, %Jason.DecodeError{}} = API.call(client, "coolOperation", %{some: "body"})
     end
+
+    test "http client missing options", %{bypass: bypass} do
+      token = "token"
+
+      client = %Client{token: token, base_url: "http://localhost:#{bypass.port}/somepath", http_client: {Telegramex.HTTPClient, []}}
+
+      assert_raise KeyError, ~r"key :name not found", fn ->
+        API.call(client, "coolOperation", %{some: "body"})
+      end
+    end
   end
 end
