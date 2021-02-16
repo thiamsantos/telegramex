@@ -1,33 +1,60 @@
 # Telegramex
 
-**TODO: Add description**
+<!-- MDOC !-->
 
-## Installation
+Telegram's Bot API wrapper.
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `telegramex` to your list of dependencies in `mix.exs`:
+[![Hex.pm Version](http://img.shields.io/hexpm/v/telegramex.svg?style=flat)](https://hex.pm/packages/telegramex)
+[![CI](https://github.com/thiamsantos/telegramex/workflows/CI/badge.svg?branch=master)](https://github.com/thiamsantos/telegramex/actions)
+[![Coverage Status](https://coveralls.io/repos/github/thiamsantos/telegramex/badge.svg?branch=master)](https://coveralls.io/github/thiamsantos/telegramex?branch=master)
+
+## Features
+
+- Support for multiple bots
+- Configurable HTTP client
+- No application configuration
+
+## Usage
+
+1. Add the dependencies
 
 ```elixir
 def deps do
   [
-    {:telegramex, "~> 0.1.0"}
+    {:finch, "~> 0.5"},
+    {:telegramex, "~> 0.0.1"}
   ]
 end
 ```
+2. Add the [finch](https://github.com/keathley/finch) client to your supervision tree
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/telegramex](https://hexdocs.pm/telegramex).
+```elixir
+children = [
+  {Finch, name: Telegramex.HTTPClient}
+]
+```
 
+**Note**: Checkout the `Telegramex.HTTPClient` on how to use other HTTP client.
 
-## Checklist
+3. Make a request
 
-- documentation
-- typespec
-- readme
-- tests
-- CI
-- contributing
-- changelog
-- license
-- code of conduct
+```elixir
+client = %Telegramex.Client{token: "123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11"}
+Telegramex.get_updates(client)
+```
+
+Full documentation can be found at [https://hexdocs.pm/telegramex](https://hexdocs.pm/telegramex).
+
+## Changelog
+
+See the [changelog](CHANGELOG.md).
+
+<!-- MDOC !-->
+
+## Contributing
+
+See the [contributing file](CONTRIBUTING.md).
+
+## License
+
+[Apache License, Version 2.0](LICENSE) © [Thiago Santos](https://github.com/thiamsantos)
