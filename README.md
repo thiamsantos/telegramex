@@ -34,7 +34,7 @@ children = [
 ]
 ```
 
-**Note**: Checkout the `Telegramex.HTTPClient` on how to use other HTTP client.
+**Note**: Checkout the `Telegramex.Client` on how to use other HTTP client.
 
 3. Make a request
 

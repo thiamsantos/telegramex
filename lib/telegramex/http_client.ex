@@ -4,7 +4,7 @@ defmodule Telegramex.HTTPClient do
 
   You can switch the default HTTP client which uses [finch](https://github.com/keathley/finch) underneath
   by defining a different implementation by setting the `:http_client`
-  configuration in Telegramex.Client:
+  configuration in `Telegramex.Client`:
 
       client = %Telegramex.Client{http_client: {MyCustomHTTPClient, []}}
       Telegramex.get_updates(client)

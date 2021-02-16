@@ -39,7 +39,7 @@ defmodule Telegramex.MixProject do
 
   defp docs do
     [
-      main: "Broadway",
+      main: "Telegramex",
       source_ref: "v#{@version}",
       source_url: @source_url,
       extras: ["CHANGELOG.md"]
