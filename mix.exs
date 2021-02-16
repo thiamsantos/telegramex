@@ -1,7 +1,7 @@
 defmodule Telegramex.MixProject do
   use Mix.Project
 
-  @version "0.0.1"
+  @version "0.1.0"
   @description "Telegram's Bot API wrapper"
   @source_url "https://github.com/thiamsantos/telegramex"
 
@@ -32,7 +32,7 @@ defmodule Telegramex.MixProject do
       {:finch, "~> 0.5", optional: true},
       {:bypass, "~> 2.1", only: :test},
       {:plug, "~> 1.11", only: :test},
-      {:ex_doc, ">= 0.19.0", only: :docs},
+      {:ex_doc, ">= 0.19.0", only: :dev, runtime: false},
       {:excoveralls, "~> 0.13.3", only: :test}
     ]
   end
