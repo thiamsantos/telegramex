@@ -26,7 +26,7 @@ defmodule Telegramex.HTTPClient do
 
   if Code.ensure_loaded?(Finch) do
     def request(method, url, headers, body, opts) do
-      {name, opts} = Keyword.pop!(opts, :name)
+      {name, opts} = pop!(opts, :name)
 
       method
       |> Finch.build(url, headers, body)
@@ -39,6 +39,13 @@ defmodule Telegramex.HTTPClient do
     end
 
     defp to_response({:error, reason}), do: {:error, reason}
+
+    def pop!(keywords, key) when is_list(keywords) and is_atom(key) do
+      case Keyword.fetch(keywords, key) do
+        {:ok, value} -> {value, Keyword.delete(keywords, key)}
+        :error -> raise KeyError, key: key, term: keywords
+      end
+    end
   else
     def request(_, _, _, _, _) do
       raise ArgumentError, """
