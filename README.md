@@ -51,6 +51,10 @@ See the [changelog](CHANGELOG.md).
 
 <!-- MDOC !-->
 
+## Code of Conduct
+
+See the [code of conduct file](CODE_OF_CONDUCT.md).
+
 ## Contributing
 
 See the [contributing file](CONTRIBUTING.md).
