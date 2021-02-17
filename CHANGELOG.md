@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] - 2021-02-17
+
 ### Added
 
 - Telemetry integration
@@ -17,5 +19,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support for method `getUpdates`
 - Support for method `answerInlineQuery`
 
-[Unreleased]: https://github.com/thiamsantos/telegramex/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/thiamsantos/telegramex/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/thiamsantos/telegramex/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/thiamsantos/telegramex/releases/tag/v0.1.0

@@ -22,7 +22,7 @@ Telegram's Bot API wrapper.
 def deps do
   [
     {:finch, "~> 0.5"},
-    {:telegramex, "~> 0.1.0"}
+    {:telegramex, "~> 0.1.1"}
   ]
 end
 ```
