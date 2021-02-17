@@ -29,6 +29,7 @@ defmodule Telegramex.MixProject do
   defp deps do
     [
       {:jason, "~> 1.2"},
+      {:telemetry, "~> 0.4.2"},
       {:finch, "~> 0.5", optional: true},
       {:bypass, "~> 2.1", only: :test},
       {:plug, "~> 1.11", only: :test},

@@ -1,14 +1,28 @@
 defmodule Telegramex.API do
   @moduledoc false
 
-  def call(client, operation, body) do
+  def call(client, method, body) do
+    initial_metadata = %{method: method, body: body}
+
+    :telemetry.span([:telegramex, :call], initial_metadata, fn ->
+      case do_call(client, method, body) do
+        {:ok, response} ->
+          {{:ok, response.body}, Map.put(initial_metadata, :response, response)}
+
+        {:error, error} ->
+          {{:error, error}, Map.put(initial_metadata, :error, error)}
+      end
+    end)
+  end
+
+  defp do_call(client, method, body) do
     {http_mod, http_opts} = client.http_client
 
     url =
       client.base_url
       |> URI.parse()
       |> Map.update!(:path, fn path ->
-        Path.join([path || "/", "bot#{client.token}", operation])
+        Path.join([path || "/", "bot#{client.token}", method])
       end)
       |> URI.to_string()
 
@@ -19,7 +33,7 @@ defmodule Telegramex.API do
            apply(http_mod, :request, [:post, url, headers, encoded_body, http_opts]),
          {:ok, response} <- json_decode(response) do
       if response.status == 200 do
-        {:ok, response.body}
+        {:ok, response}
       else
         {:error, response}
       end
